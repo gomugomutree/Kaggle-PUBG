@@ -1,5 +1,6 @@
 from dataloader import load_data
 from preprocess import scaling
+from preprocess import preprocessing
 from utils import load_config
 
 from sklearn.ensemble import RandomForestClassifier
@@ -11,7 +12,17 @@ def main():
     # python main.py --config svm.json
     # python main.py --config lr.json
 
-    X, y = load_data()
+    train_data = load_data(data_type='train')
+    test_data = load_data(data_type='test')
+    submission = load_data(data_type='submission')
+
+    train_data = preprocessing(train_data)
+    test_data = preprocessing(test_data)
+
+    X = train_data.drop(columns='winPlacePerc')
+    y = train_data.winPlacePerc
+
+
     cfg = load_config(model_name='rf')
 
     preprocess_cfg = cfg['preprocess']

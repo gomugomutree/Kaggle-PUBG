@@ -1,6 +1,7 @@
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
-import src.feature
+import src.feature as ft
+import src.drop as dr
 
 
 def scaling(data):
@@ -14,18 +15,22 @@ def scaling(data):
     return new_data
 
 
+def preprocessing(df):
+    if type(df) == pd.DataFrame:
+        dr.drop_isna_game(df)
+        dr.drop_event_game(df)
 
-def preprocessing(test_data):
-    test_data['match_type_numerical'] = test_data['matchType'].apply(lambda x : src.feature.divide_match_type(x) )
+        ft.add_hackuser_include_game(df)
+        dr.drop_hackuser_include_game(df)
 
-    # add maptype
-    test_data['maptype'] = test_data['matchDuration'].apply(lambda x : 0 if x<1600 else 1)
+        ft.add_match_type_numerical(df)
+        ft.add_maptype(df) 
 
-    # add team members
-    test_data['team_members'] = test_data.groupby('groupId').Id.transform('count')
+        ft.add_team_member_count(df)
+        ft.select_teamdata_type(df)
 
-    # drop colums
-    drop_columns = ['killStreaks','headshotKills', 'assists', 'matchDuration','matchType', 'swimDistance', 'vehicleDestroys', 'roadKills', 'DBNOs', 'revives', 'teamKills','killPoints', 'winPoints', 'rankPoints', 'numGroups' ]
-    test_data = test_data.drop(columns=drop_columns).copy()
-    return test_data
+        dr.final_drop_feature(df)
+    else:
+        return print('please input type : DataFrame')
+    return df
 
