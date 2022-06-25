@@ -1,4 +1,7 @@
 from src.hackuser import hack_users
+import pandas as pd
+import numpy as np
+
 
 # add match_type_numerical
 def divide_match_type(x):
@@ -43,3 +46,21 @@ def add_hackuser_include_game(df):
     df["hack_user_game"] = df.matchId.apply(lambda x : 0 if hack_user_matchid.find(x)==-1 else 1) # find 함수는 찾지 못하면 -1 반환
     
     return df
+
+
+# 같은 팀을 하나의 데이터로 통일하여 하나의 row로 만든다. 
+# 통일 기준을 sum, mean, best player로 나누었다.
+def select_teamdata_type(df, n):
+    # n==0 -> sum,  n==1 -> mean,  other -> best player
+    if n == 0:  # 합계    
+        team_df_sum = df.iloc[:, :-3].groupby(['matchId', 'groupId']).agg(sum)
+        team_df_mean = df[['matchId', 'groupId','winPlacePerc', 'team_members', 'match_type_numerical']].groupby(['matchId', 'groupId']).agg(np.mean)
+        team_df = pd.concat([team_df_sum, team_df_mean], axis=1, ignore_index=False)
+        
+    elif n ==1: # 평균
+        team_df = df.groupby(['matchId', 'groupId']).agg(np.mean)
+
+    else:       #best player
+        team_df = df.loc[df.groupby(['groupId'])['walkDistance'].idxmax()]
+        
+    return team_df

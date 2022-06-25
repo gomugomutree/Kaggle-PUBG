@@ -1,0 +1,15 @@
+{
+    "preprocess" : {
+        "scaling": true,
+        "text": true
+    },
+    "parameters" : {
+        "n_estimators" : 100,
+        "max_depth" : 10,
+        "booster" : "gbtree",
+        "eta" : 0.3,
+        "gamma" : 0,    
+        "nthread" : 4,
+        "base_score" : 0.5
+    }
+}
