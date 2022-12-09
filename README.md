@@ -1,4 +1,5 @@
 # Project Name : kaggle PUBG ( BATTLEGROUND )
+![image](https://user-images.githubusercontent.com/103991575/206652354-9002d317-e8ef-4771-8323-9ddfd9b0a7e7.png)
 
 # 💡 Topic
 
@@ -27,3 +28,4 @@ PlayerUnknown's BattleGrounds(PUBG)는 엄청난 인기를 누리고 있습니�
 - 다양한 **`ML`** model 학습
 
 # 📷 Result
+![image](https://user-images.githubusercontent.com/103991575/206652276-99854cdb-3189-494e-9d12-844ca0c84bd0.png)
